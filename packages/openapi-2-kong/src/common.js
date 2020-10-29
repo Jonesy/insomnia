@@ -97,7 +97,7 @@ export const HttpMethod = {
 
 export function isHttpMethodKey(key: string): boolean {
   const uppercaseKey = key.toUpperCase();
-  return Object.values(HttpMethod).some(m => m === uppercaseKey);
+  return Object.values(HttpMethod).some((m) => m === uppercaseKey);
 }
 
 export function getMethodAnnotationName(method: HttpMethodType): string {
@@ -106,19 +106,25 @@ export function getMethodAnnotationName(method: HttpMethodType): string {
 
 export function parseUrl(
   urlStr: string,
-): {|
-  host: string,
-  hostname: string,
-  port: string,
-  protocol: string,
-  pathname: string,
-|} {
+):
+  | {|
+      host: string,
+      hostname: string,
+      port: string,
+      protocol: string,
+      pathname: string,
+    |}
+  | boolean {
   const parsed: Object = url.parse(urlStr);
 
   if (!parsed.port && parsed.protocol === 'https:') {
     parsed.port = '443';
   } else if (!parsed.port && parsed.protocol === 'http:') {
     parsed.port = '80';
+  }
+
+  if (!parsed.hostname || !parsed.protocol) {
+    return false;
   }
 
   parsed.protocol = parsed.protocol || 'http:';

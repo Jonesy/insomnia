@@ -42,9 +42,9 @@ export function generateApiKeySecurityPlugin(scheme: OA3SecuritySchemeApiKey): D
 }
 
 export function generateHttpSecurityPlugin(scheme: OA3SecuritySchemeHttp): DCPlugin {
-  if ((scheme.scheme || '').toLowerCase() !== 'basic') {
-    throw new Error(`Only "basic" http scheme supported. got ${scheme.scheme}`);
-  }
+  //if ((scheme.scheme || '').toLowerCase() !== 'basic') {
+  //  throw new Error(`Only "basic" http scheme supported. got ${scheme.scheme}`);
+  //}
 
   return { name: 'basic-auth' };
 }

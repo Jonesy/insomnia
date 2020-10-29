@@ -1,6 +1,6 @@
 // @flow
 import { generateServices } from './services';
-import { generateUpstreams } from './upstreams';
+//import { generateUpstreams } from './upstreams';
 
 export function generateDeclarativeConfigFromSpec(
   api: OpenApi3Spec,
@@ -11,7 +11,7 @@ export function generateDeclarativeConfigFromSpec(
     document = {
       _format_version: '1.1',
       services: generateServices(api, tags),
-      upstreams: generateUpstreams(api, tags),
+      //upstreams: generateUpstreams(api, tags),
     };
   } catch (err) {
     throw new Error('Failed to generate spec: ' + err.message);

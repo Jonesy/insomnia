@@ -66,10 +66,13 @@ export function generateService(
       const fullPathRegex = pathVariablesToRegex(routePath);
       const route: DCRoute = {
         tags,
-        name: generateRouteName(api, pathItem, method, service.routes.length),
+        name:
+          pathItem[method].operationId ||
+          generateRouteName(api, pathItem, method, service.routes.length),
         methods: [method.toUpperCase()],
         paths: [fullPathRegex],
         strip_path: false,
+        // hosts: [serverUrl],
       };
 
       // Generate generic and security-related plugin objects

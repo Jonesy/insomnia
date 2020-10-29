@@ -16,9 +16,13 @@ export function generateUpstreams(api: OpenApi3Spec, tags: Array<string>) {
   };
 
   for (const server of servers) {
-    upstream.targets.push({
-      target: parseUrl(server.url).host,
-    });
+    const target = parseUrl(server.url).host;
+
+    if (target) {
+      upstream.targets.push({
+        target,
+      });
+    }
   }
 
   return [upstream];
