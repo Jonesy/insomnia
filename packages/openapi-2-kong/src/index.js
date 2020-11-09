@@ -28,19 +28,21 @@ export async function generateFromString(
   specStr: string,
   type: ConversionResultType,
   tags: Array<string> = [],
+  options: any = {},
 ): Promise<ConversionResult> {
   const api: OpenApi3Spec = await parseSpec(specStr);
-  return generateFromSpec(api, type, ['OAS3_import', ...tags]);
+  return generateFromSpec(api, type, ['OAS3_import', ...tags], options);
 }
 
 export function generateFromSpec(
   api: OpenApi3Spec,
   type: ConversionResultType,
   tags: Array<string> = [],
+  options: any,
 ): ConversionResult {
   switch (type) {
     case 'kong-declarative-config':
-      return generateDeclarativeConfigFromSpec(api, tags);
+      return generateDeclarativeConfigFromSpec(api, tags, options);
     case 'kong-for-kubernetes':
       return generateKongForKubernetesConfigFromSpec(api, tags);
     default:

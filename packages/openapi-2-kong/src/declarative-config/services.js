@@ -11,7 +11,11 @@ import {
 import { generateSecurityPlugins } from './security-plugins';
 import { generateOperationPlugins, generateServerPlugins } from './plugins';
 
-export function generateServices(api: OpenApi3Spec, tags: Array<string>): Array<DCService> {
+export function generateServices(
+  api: OpenApi3Spec,
+  tags: Array<string>,
+  options: any,
+): Array<DCService> {
   const servers = getAllServers(api);
 
   if (servers.length === 0) {
@@ -19,7 +23,7 @@ export function generateServices(api: OpenApi3Spec, tags: Array<string>): Array<
   }
 
   // only support one service for now
-  const service = generateService(servers[0], api, tags);
+  const service = generateService(servers[0], api, tags, options);
   return [service];
 }
 
@@ -27,12 +31,13 @@ export function generateService(
   server: OA3Server,
   api: OpenApi3Spec,
   tags: Array<string>,
+  options: any,
 ): DCService {
   const serverUrl = fillServerVariables(server);
   const name = getName(api);
   const service: DCService = {
     name,
-    url: serverUrl,
+    url: options.serviceUrl || serverUrl,
     plugins: generateServerPlugins(server),
     routes: [],
     tags,
@@ -72,7 +77,7 @@ export function generateService(
         methods: [method.toUpperCase()],
         paths: [fullPathRegex],
         strip_path: false,
-        // hosts: [serverUrl],
+        hosts: [options.routeHost],
       };
 
       // Generate generic and security-related plugin objects

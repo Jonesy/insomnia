@@ -5,12 +5,13 @@ import { generateServices } from './services';
 export function generateDeclarativeConfigFromSpec(
   api: OpenApi3Spec,
   tags: Array<string>,
+  options: any,
 ): DeclarativeConfigResult {
   let document = null;
   try {
     document = {
       _format_version: '1.1',
-      services: generateServices(api, tags),
+      services: generateServices(api, tags, options),
       //upstreams: generateUpstreams(api, tags),
     };
   } catch (err) {
